@@ -24,9 +24,9 @@ class Tile : GameObject
         else if (surface == SurfaceType.Ice)
             surfaceExtension = "_ice";
         else if (surface == SurfaceType.Speed)
-            surfaceExtension = "";
+            surfaceExtension = "_speed";
         else if (surface == SurfaceType.Slow)
-            surfaceExtension = "";
+            surfaceExtension = "_slow";
         
 
         if (type == Type.Wall)
