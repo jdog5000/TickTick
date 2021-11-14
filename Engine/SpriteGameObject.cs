@@ -11,7 +11,7 @@ namespace Engine
         /// <summary>
         /// The sprite that this object can draw on the screen.
         /// </summary>
-        protected SpriteSheet sprite;
+        public SpriteSheet sprite;
 
         /// <summary>
         /// The origin ('offset') to use when drawing the sprite on the screen.

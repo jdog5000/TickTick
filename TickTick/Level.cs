@@ -123,6 +123,8 @@ partial class Level : GameObjectList
         {
             Player.Explode();
         }
+
+        
     }
 
     /// <summary>

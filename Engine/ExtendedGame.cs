@@ -7,6 +7,7 @@ namespace Engine
 {
     public abstract class ExtendedGame : Game
     {
+
         // standard MonoGame objects for graphics and sprites
         protected GraphicsDeviceManager graphics;
         protected SpriteBatch spriteBatch;
@@ -17,12 +18,12 @@ namespace Engine
         /// <summary>
         /// The width and height of the game world, in game units.
         /// </summary>
-        protected Point worldSize;
+        public Point worldSize;
 
         /// <summary>
         /// The width and height of the window, in pixels.
         /// </summary>
-        protected Point windowSize;
+        public Point windowSize;
 
         /// <summary>
         /// A matrix used for scaling the game world so that it fits inside the window.
@@ -46,6 +47,7 @@ namespace Engine
 
         public static string ContentRootDirectory { get { return "Content"; } }
 
+        protected Vector2 cameraPosition;
         /// <summary>
         /// Creates a new ExtendedGame object.
         /// </summary>
@@ -90,6 +92,7 @@ namespace Engine
         {
             HandleInput();
             GameStateManager.Update(gameTime);
+            
         }
 
         /// <summary>
@@ -160,31 +163,48 @@ namespace Engine
         /// </summary>
         /// <param name="windowSize">The size of the screen on which the world should be drawn.</param>
         /// <returns>A Viewport object that will show the game world as large as possible while preserving its aspect ratio.</returns>
-        Viewport CalculateViewport(Point windowSize)
+        public virtual Viewport CalculateViewport(Point windowSize)
         {
-            // create a Viewport object
             Viewport viewport = new Viewport();
-
-            // calculate the two aspect ratios
             float gameAspectRatio = (float)worldSize.X / worldSize.Y;
             float windowAspectRatio = (float)windowSize.X / windowSize.Y;
 
-            // if the window is relatively wide, use the full window height
+
             if (windowAspectRatio > gameAspectRatio)
             {
                 viewport.Width = (int)(windowSize.Y * gameAspectRatio);
                 viewport.Height = windowSize.Y;
             }
-            // if the window is relatively high, use the full window width
+
             else
             {
                 viewport.Width = windowSize.X;
                 viewport.Height = (int)(windowSize.X / gameAspectRatio);
             }
 
-            // calculate and store the top-left corner of the viewport
-            viewport.X = (windowSize.X - viewport.Width) / 2;
-            viewport.Y = (windowSize.Y - viewport.Height) / 2;
+            if (worldSize.X <= windowSize.X && worldSize.Y <= windowSize.Y)
+            {
+                viewport.X = (windowSize.X - viewport.Width) / 2;
+                viewport.Y = (windowSize.Y - viewport.Height) / 2;
+            }
+            else
+            {
+                if (worldSize.X <= windowSize.X)
+                {
+                    viewport.X = (windowSize.X - viewport.Width) / 2;
+                    viewport.Y = (int)cameraPosition.Y;
+                }
+                else if (worldSize.Y <= windowSize.Y)
+                {
+                    viewport.X = (int)cameraPosition.X;
+                    viewport.Y = (windowSize.Y - viewport.Height) / 2;
+                }
+                else
+                {
+                    viewport.X = (int)cameraPosition.X;
+                    viewport.Y = (int)cameraPosition.Y;
+                }
+            }
 
             return viewport;
         }

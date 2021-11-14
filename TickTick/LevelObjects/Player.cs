@@ -24,6 +24,7 @@ class Player : AnimatedGameObject
     double speedUpTimer, slowDownTimer;
     Level level;
     Vector2 startPosition;
+    public static Vector2 cameraPos;
     
     bool isCelebrating; // Whether or not the player is celebrating a level victory.
     bool isExploding;
@@ -38,6 +39,7 @@ class Player : AnimatedGameObject
     {
         this.level = level;
         this.startPosition = startPosition;
+        
 
         // load all animations
         LoadAnimation("Sprites/LevelObjects/Player/spr_idle", "idle", true, 0.1f);
@@ -139,6 +141,7 @@ class Player : AnimatedGameObject
     public override void Update(GameTime gameTime)
     {
         Vector2 previousPosition = localPosition;
+        cameraPos = localPosition;
 
         if (CanCollideWithObjects)
             ApplyFriction(gameTime);
@@ -186,6 +189,7 @@ class Player : AnimatedGameObject
                 slowDownTimer = 0;
             }
         }
+
             
     }
 

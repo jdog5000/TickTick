@@ -24,6 +24,14 @@ class TickTick : ExtendedGameWithLevels
         IsMouseVisible = true;
     }
 
+    public Vector2 CalculateCameraPosition(GameTime gameTime)
+    {
+
+        cameraPosition = new Vector2(0, 40);
+        return cameraPosition;
+    }
+
+
     protected override void LoadContent()
     {
         base.LoadContent();
@@ -31,7 +39,10 @@ class TickTick : ExtendedGameWithLevels
         // set a custom world and window size
         worldSize = new Point(1440, 825);
         windowSize = new Point(1024, 586);
+        //cameraPosition = new Vector2(0, (float)gameTime.TotalGameTime.TotalSeconds);
+        cameraPosition = new Vector2();
         
+
         // to let these settings take effect, we need to set the FullScreen property again
         FullScreen = false;
 
