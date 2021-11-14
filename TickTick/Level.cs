@@ -131,7 +131,8 @@ partial class Level : GameObjectList
             Player.Explode();
         }
         playerPosition = Player.GlobalPosition;
-
+        frame.Update(gameTime);
+        hintText.Update(gameTime);
     }
 
     /// <summary>

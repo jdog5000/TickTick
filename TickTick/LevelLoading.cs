@@ -7,6 +7,8 @@ partial class Level : GameObjectList
 {
     public static int numberOfRows = 0;
     public static int numberOfCols = 0;
+    SpriteGameObject frame;
+    TextGameObject hintText;
     void LoadLevelFromFile(string filename)
     {
         // open the file
@@ -44,13 +46,13 @@ partial class Level : GameObjectList
     void AddLevelInfoObjects(string description)
     {
         // - background box
-        SpriteGameObject frame = new SpriteGameObject("Sprites/UI/spr_frame_hint", TickTick.Depth_UIBackground);
+        frame = new SpriteGameObject("Sprites/UI/spr_frame_hint", TickTick.Depth_UIBackground);
         frame.SetOriginToCenter();
         frame.LocalPosition = new Vector2(720, 50);
         AddChild(frame);
 
         // - text
-        TextGameObject hintText = new TextGameObject("Fonts/HintFont", TickTick.Depth_UIForeground, Color.Black, TextGameObject.Alignment.Left);
+        hintText = new TextGameObject("Fonts/HintFont", TickTick.Depth_UIForeground, Color.Black, TextGameObject.Alignment.Left);
         hintText.Text = description;
         hintText.LocalPosition = new Vector2(510, 40);
         AddChild(hintText);

@@ -13,7 +13,7 @@ namespace Engine
             get { return localPosition; }
             set { localPosition = value; }
         }
-        protected Vector2 localPosition;
+        public static Vector2 localPosition;
 
         /// <summary>
         /// The current velocity of this game object, in units per second.

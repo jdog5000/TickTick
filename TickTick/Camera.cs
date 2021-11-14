@@ -4,20 +4,19 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
 
-class Camera
+class Camera : GameObject
 {
-    public Vector2 pos;
     private int worldWidth;
     private int worldHeight;
 
     public Camera(Viewport viewport)
     {
-        pos = new Vector2();
+        localPosition = new Vector2();
     }
 
     public Vector2 Pos
     {
-        get { return pos; }
+        get { return localPosition; }
         set
         {
 
@@ -25,24 +24,24 @@ class Camera
             worldHeight = Level.numberOfRows * 55;
 
             float leftBarrier = 0;
-            float rightBarrier = worldWidth - TickTick.windowSize.X;
+            float rightBarrier = worldWidth;
             float topBarrier = 0;
-            float bottomBarrier = worldHeight - TickTick.windowSize.Y;
-            pos = value;
-            pos.X = Math.Clamp(pos.X, rightBarrier, leftBarrier);
-            pos.Y = Math.Clamp(pos.Y, topBarrier, bottomBarrier);
+            float bottomBarrier = worldHeight;
+            localPosition = value;
+            localPosition.X = Math.Clamp(localPosition.X, leftBarrier, rightBarrier);
+            localPosition.Y = Math.Clamp(localPosition.Y, topBarrier, bottomBarrier);
 
         }
     }
 
     public Matrix GetTransformation()
     {
-        Matrix transform = Matrix.CreateTranslation(new Vector3(-pos.X, -pos.Y, 0));
+        Matrix transform = Matrix.CreateTranslation(new Vector3(-localPosition.X, -localPosition.Y, 0));
 
         return transform * TickTick.spriteScale;
     }
 
-    public Matrix Reset()
+    public new Matrix Reset()
     {
         Matrix reset = TickTick.spriteScale;
 

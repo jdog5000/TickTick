@@ -33,7 +33,7 @@ class BombTimer : GameObjectList
     {
         if (!Running)
             return;
-
+        localPosition = Camera.localPosition;
         // decrease the timer
         double oldTimeLeft = timeLeft;
         if (!HasPassed)
