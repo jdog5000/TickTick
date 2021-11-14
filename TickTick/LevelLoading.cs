@@ -5,6 +5,8 @@ using System.IO;
 
 partial class Level : GameObjectList
 {
+    public static int numberOfRows = 0;
+    public static int numberOfCols = 0;
     void LoadLevelFromFile(string filename)
     {
         // open the file
@@ -32,6 +34,8 @@ partial class Level : GameObjectList
         
         // create all game objects for the grid
         AddPlayingField(gridRows, gridWidth, gridRows.Count);
+        numberOfCols = gridRows.Count;
+        numberOfRows = gridWidth;
 
         // add game objects to show that general level info
         AddLevelInfoObjects(description);
@@ -141,7 +145,7 @@ partial class Level : GameObjectList
         // create the bomb character
         Player = new Player(this, GetCellBottomCenter(x, y));
         AddChild(Player);
-    }
+}
 
     void LoadGoal(int x, int y)
     {
@@ -202,4 +206,5 @@ partial class Level : GameObjectList
     {
         return GetCellPosition(x, y + 1) + new Vector2(TileWidth / 2, 0);
     }
+
 }

@@ -11,10 +11,10 @@ namespace Engine
     public class GameStateManager : IGameLoopObject
     {
         // The collection of all game states.
-        Dictionary<string, GameState> gameStates;
+        public Dictionary<string, GameState> gameStates;
 
         // A reference to the game state that is currently active.
-        GameState currentGameState;
+        public static GameState currentGameState;
 
         /// <summary>
         /// Creates a new GameStateManager object.

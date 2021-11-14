@@ -7,6 +7,7 @@ namespace Engine
 {
     public abstract class ExtendedGame : Game
     {
+        protected static Viewport viewport = new Viewport();
 
         // standard MonoGame objects for graphics and sprites
         protected GraphicsDeviceManager graphics;
@@ -18,17 +19,17 @@ namespace Engine
         /// <summary>
         /// The width and height of the game world, in game units.
         /// </summary>
-        public Point worldSize;
+        public static Point worldSize;
 
         /// <summary>
         /// The width and height of the window, in pixels.
         /// </summary>
-        public Point windowSize;
+        public static Point windowSize;
 
         /// <summary>
         /// A matrix used for scaling the game world so that it fits inside the window.
         /// </summary>
-        Matrix spriteScale;
+        public static Matrix spriteScale;
 
         /// <summary>
         /// An object for generating random numbers throughout the game.
@@ -47,7 +48,10 @@ namespace Engine
 
         public static string ContentRootDirectory { get { return "Content"; } }
 
-        protected Vector2 cameraPosition;
+        // get the size of the screen to use: either the window size or the full screen size
+        Point screenSize;
+
+        public Point pos;
         /// <summary>
         /// Creates a new ExtendedGame object.
         /// </summary>
@@ -92,7 +96,6 @@ namespace Engine
         {
             HandleInput();
             GameStateManager.Update(gameTime);
-            
         }
 
         /// <summary>
@@ -120,14 +123,6 @@ namespace Engine
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.Black);
-
-            // start drawing sprites, applying the scaling matrix
-            spriteBatch.Begin(SpriteSortMode.FrontToBack, null, null, null, null, null, spriteScale);
-
-            // let the game world draw itself
-            GameStateManager.Draw(gameTime, spriteBatch);
-
-            spriteBatch.End();
         }
 
         /// <summary>
@@ -138,8 +133,7 @@ namespace Engine
             // make the game full-screen or not
             graphics.IsFullScreen = fullScreen;
 
-            // get the size of the screen to use: either the window size or the full screen size
-            Point screenSize;
+            
             if (fullScreen)
                 screenSize = new Point(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height);
             else
@@ -165,7 +159,6 @@ namespace Engine
         /// <returns>A Viewport object that will show the game world as large as possible while preserving its aspect ratio.</returns>
         public virtual Viewport CalculateViewport(Point windowSize)
         {
-            Viewport viewport = new Viewport();
             float gameAspectRatio = (float)worldSize.X / worldSize.Y;
             float windowAspectRatio = (float)windowSize.X / windowSize.Y;
 
@@ -182,30 +175,9 @@ namespace Engine
                 viewport.Height = (int)(windowSize.X / gameAspectRatio);
             }
 
-            if (worldSize.X <= windowSize.X && worldSize.Y <= windowSize.Y)
-            {
-                viewport.X = (windowSize.X - viewport.Width) / 2;
-                viewport.Y = (windowSize.Y - viewport.Height) / 2;
-            }
-            else
-            {
-                if (worldSize.X <= windowSize.X)
-                {
-                    viewport.X = (windowSize.X - viewport.Width) / 2;
-                    viewport.Y = (int)cameraPosition.Y;
-                }
-                else if (worldSize.Y <= windowSize.Y)
-                {
-                    viewport.X = (int)cameraPosition.X;
-                    viewport.Y = (windowSize.Y - viewport.Height) / 2;
-                }
-                else
-                {
-                    viewport.X = (int)cameraPosition.X;
-                    viewport.Y = (int)cameraPosition.Y;
-                }
-            }
-
+            viewport.X = (windowSize.X - viewport.Width) / 2;
+            viewport.Y = (windowSize.Y - viewport.Height) / 2;
+            
             return viewport;
         }
 

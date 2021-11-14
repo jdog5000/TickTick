@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Input;
 
 class PlayingState : GameState, IPlayingState
 {
-    Level level;
+    public Level level;
     Button quitButton;
     SpriteGameObject completedOverlay, gameOverOverlay;
 
@@ -99,5 +99,10 @@ class PlayingState : GameState, IPlayingState
 
         // mark the level as solved, and unlock the next level
         ExtendedGameWithLevels.MarkLevelAsSolved(levelIndex);
+    }
+
+    public Level Level
+    {
+        get { return level ;  }
     }
 }

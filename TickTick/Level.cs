@@ -11,8 +11,9 @@ partial class Level : GameObjectList
     Tile[,] tiles;
     List<WaterDrop> waterDrops;
 
-    public Player Player { get; private set; }
+    public Player Player { get ; private set; }
     public int LevelIndex { get; private set; }
+    static Vector2 playerPosition;
 
     SpriteGameObject goal;
     BombTimer timer;
@@ -64,6 +65,12 @@ partial class Level : GameObjectList
                 tiles.GetLength(0) * TileWidth,
                 tiles.GetLength(1) * TileHeight);
         }
+    }
+
+    public static Vector2 CameraPos
+    {
+        get { return TickTick.camera.Pos;  }
+        set { TickTick.camera.Pos = playerPosition - new Vector2(TickTick.windowSize.X, TickTick.windowSize.Y) / 2; }
     }
 
     public BombTimer Timer { get { return timer; } }
@@ -123,8 +130,8 @@ partial class Level : GameObjectList
         {
             Player.Explode();
         }
+        playerPosition = Player.GlobalPosition;
 
-        
     }
 
     /// <summary>
